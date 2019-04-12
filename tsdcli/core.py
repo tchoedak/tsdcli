@@ -69,3 +69,12 @@ class Command():
             f'{bcolors.ENDC} Successful? {bcolors.OKGREEN} {self.successful}'
             f'{bcolors.ENDC}'
         )
+
+
+class Chain():
+    def __init__(*commands):
+        self.commands = commands
+
+    def exec(self, shell=True):
+        for command in self.commands:
+            comand.exec(shell=shell)
