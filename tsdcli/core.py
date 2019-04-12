@@ -77,4 +77,4 @@ class Chain():
 
     def exec(self, shell=True):
         for command in self.commands:
-            comand.exec(shell=shell)
+            command.exec(shell=shell)
