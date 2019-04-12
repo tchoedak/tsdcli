@@ -72,7 +72,7 @@ class Command():
 
 
 class Chain():
-    def __init__(*commands):
+    def __init__(self, *commands):
         self.commands = commands
 
     def exec(self, shell=True):
