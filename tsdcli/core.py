@@ -57,6 +57,7 @@ class Command():
         execute_in_shell = shell if self.shell is None else self.shell
         self.successful = subprocess.call(self.args, shell=execute_in_shell) == 0
         self.executed = True
+        print(self)
 
     @property
     def command(self):

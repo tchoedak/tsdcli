@@ -11,7 +11,6 @@ def push():
     branch = pre('''git branch | grep \* | cut -d ' ' -f2''')
     cmd = Command(f'git push origin {branch}', msg=f'pushing to remote branch {branch}')
     result = cmd.exec()
-    print(cmd)
 
 
 @click.command()
