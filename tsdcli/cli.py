@@ -9,3 +9,4 @@ def cli():
 
 
 cli.add_command(git.push)
+cli.add_command(git.merge)

@@ -1,0 +1,9 @@
+__pycache__*
+*.pyc
+*.pyo
+*.tar.gz
+*.egg-info
+*.swp
+.cache
+.eggs
+**/**/.DS_Store

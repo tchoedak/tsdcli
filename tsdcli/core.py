@@ -46,17 +46,18 @@ def pre(pre_command):
 class Command():
 
     @parse_args(pos=1)
-    def __init__(self, args, msg=None):
+    def __init__(self, args, msg=None, shell=False):
         self.args = args
         self.msg = msg
+        self.shell = shell
         self.executed = False
         self.successful = False
 
-    def exec(self, shell=True):
-        print(self.msg)
-        print(self.args)
-        self.successful = subprocess.call(self.args, shell=shell) == 0
+    def exec(self, shell=False):
+        execute_in_shell = shell if self.shell is None else self.shell
+        self.successful = subprocess.call(self.args, shell=execute_in_shell) == 0
         self.executed = True
+        print(self)
 
     @property
     def command(self):
@@ -69,3 +70,14 @@ class Command():
             f'{bcolors.ENDC} Successful? {bcolors.OKGREEN} {self.successful}'
             f'{bcolors.ENDC}'
         )
+
+
+class Chain():
+    def __init__(self, *commands):
+        self.commands = commands
+
+    def exec(self, shell=True):
+        for command in self.commands:
+            command.exec(shell=shell)
+            if not command.successful:
+                raise Exception('Command is bad')
