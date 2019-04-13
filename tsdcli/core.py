@@ -46,16 +46,16 @@ def pre(pre_command):
 class Command():
 
     @parse_args(pos=1)
-    def __init__(self, args, msg=None):
+    def __init__(self, args, msg=None, shell=None):
         self.args = args
         self.msg = msg
+        self.shell = shell
         self.executed = False
         self.successful = False
 
     def exec(self, shell=True):
-        print(self.msg)
-        print(self.args)
-        self.successful = subprocess.call(self.args, shell=shell) == 0
+        execute_in_shell = shell if self.shell is None else self.shell
+        self.successful = subprocess.call(self.args, shell=execute_in_shell) == 0
         self.executed = True
 
     @property

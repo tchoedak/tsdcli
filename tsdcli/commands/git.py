@@ -19,8 +19,8 @@ def merge():
     branch = pre('''git branch | grep \* | cut -d ' ' -f2''')
     
     commands = Chain(
-        Command('git checkout master'),
-        Command('git pull'),
+        Command('git checkout master', shell=False),
+        Command('git pull', shell=False),
         Command(f'git checkout {branch}'),
         Command('git merge master')
     )
