@@ -78,3 +78,5 @@ class Chain():
     def exec(self, shell=True):
         for command in self.commands:
             command.exec(shell=shell)
+            if not command.successful:
+                raise Exception('Command is bad')
