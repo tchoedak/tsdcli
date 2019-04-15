@@ -14,6 +14,6 @@ setup(
         'click',
     ],
     entry_points={
-        'console_scripts': ['tsdcli=tsdcli.cli:cli'],
+        'console_scripts': ['tsdcli=tsdcli.tsdcli.cli:cli'],
     },
 )
