@@ -23,6 +23,9 @@ def push_file(path, ip, destination):
 @click.argument('ip')
 @click.pass_context
 def install_remotely(ctx, path, ip):
+    '''
+    Install a package from path to a remote IP
+    '''
     ctx.invoke(push_file, path=path, ip=ip)
 
     cmd = Command(f'ssh -i ~/.ssh/id_rsa.pub')

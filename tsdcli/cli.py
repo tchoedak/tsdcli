@@ -1,7 +1,6 @@
 import click
 
-from .commands import git, emr
-
+from .commands import emr, git
 
 @click.group()
 def cli():
