@@ -28,16 +28,8 @@ def install_remotely(ctx, path, ip):
     '''
     ctx.invoke(push_file, path=path, ip=ip)
 
-    cmd = Command(f'ssh -i ~/.ssh/id_rsa.pub')
+    cmd = RemoteCommand(f'ssh -i ~/.ssh/id_rsa.pub hadoop@{ip}; cd /home/hadoop/{path}; sudo su root; pip install .')
     cmd.exec()
-
-    install_path = util.find_destination('/home/hadoop', path)
-
-    cmds = Chain(
-        Command('sudo su root'),
-        Command(f'pip install {install_path}'),
-        Command('exit')
-    )
 
 
 @click.command()

@@ -72,6 +72,35 @@ class Command():
         )
 
 
+class RemoteCommand(Command):
+
+    
+    def __init__(self, args, msg=None, shell=True):
+        self.args = args.split(';')
+        self.msg = msg
+        self.shell = shell
+        self.executed = False
+        self.successful = False
+
+    def exec(self, shell=True):
+        execute_in_shell = shell if self.shell is None else self.shell
+        process = subprocess.Popen(self.args[0], stdout=subprocess.PIPE, stdin=subprocess.PIPE,
+                                   universal_newlines=True, bufsize=0, shell=execute_in_shell)
+
+        for args in self.args[1:]:
+            process.stdin.write(f'{args} .\n')
+
+        process.stdin.write('echo ENDED REMOTE\n')
+        process.stdin.write('exit\n')
+        
+        stdout = process.communicate()[0].strip()
+        process.stdin.close()
+        self.executed = True
+        self.successful = process.returncode == 0
+        print(stdout)
+        print(self)
+
+
 class Chain():
     def __init__(self, *commands):
         self.commands = commands
