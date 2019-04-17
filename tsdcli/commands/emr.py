@@ -1,15 +1,36 @@
 import click
 
+from ..core import pre, Command, Chain
 
 
 @click.command()
-def push_file(from_, to):
-    pass
+@click.argument('path')
+@click.argument('ip')
+@click.option('-d', '--destination', default=None)
+def push_file(path, ip, destination):
+    '''
+    Push a file, either accepting a path or dir from `from_`
+    to a path `to`
+    '''
+    if destination is None:
+        destination = '/home/hadoop/'
+    cmd = Command(f'scp -i ~/.ssh/id_rsa.pub {path} hadoop@{ip}:{destination}')
+    cmd.exec()
 
 
 @click.command()
-def install_remotely():
-    pass
+@click.argument('path')
+@click.argument('ip')
+@click.pass_context
+def install_remotely(ctx, path, ip):
+    '''
+    Install a package from path to a remote IP
+    '''
+    ctx.invoke(push_file, path=path, ip=ip)
+
+    cmd = RemoteCommand(f'ssh -i ~/.ssh/id_rsa.pub hadoop@{ip}; cd /home/hadoop/{path}; sudo su root; pip install .')
+    cmd.exec()
+
 
 @click.command()
 def uninstall_remotely():
